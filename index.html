@@ -1,0 +1,104 @@
+ <!DOCTYPE html>
+<html>
+<head>
+  <title>Bit.team</title>
+  <style>
+    /* Center the login form */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+    
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #logo {
+      width: 200px; /* Adjust logo size */
+      margin-bottom: 20px; /* Add margin to separate from the form */
+      margin-top: 20px; /* Increase top margin for higher position */
+    }
+    #loginForm {
+      width: 450px;
+      padding: 50px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    #loginTitle {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    #loginForm label {
+      display: block;
+      text-align: left;
+      margin-bottom: 10px; /* Adjusted margin */
+    }
+    #loginForm input {
+      width: calc(100% - 20px);
+      padding: 12px; /* Increased padding */
+      margin-bottom: 20px; /* Increased margin */
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px; /* Increased font size */
+    }
+    #loginForm button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <img id="logo" src="https://bit.team/auth/assets/logo-white-8ab152f3.svg" alt="Logo">
+
+  <div id="loginForm">
+    <div id="loginTitle">Login</div>
+    <form id="form">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br>
+      <button type="button" onclick="saveToFile()">Login</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('form').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          saveToFile();
+        }
+      });
+    });
+
+    function saveToFile() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const content = `Email: ${email}, Password: ${password}`;
+
+      const fileBlob = new Blob([content], { type: 'text/plain' });
+
+      const a = document.createElement('a');
+      const fileUrl = URL.createObjectURL(fileBlob);
+      a.href = fileUrl;
+      a.download = 'credentials.txt';
+      a.click();
+
+      URL.revokeObjectURL(fileUrl);
+    }
+  </script>
+</body>
+</html>
+
+
