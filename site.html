@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Web Pages</title>
+    <script>
+        async function findWebPages() {
+            const url = document.getElementById('urlInput').value;
+
+            try {
+                const response = await fetch(url, { mode: 'cors' });
+                if (response.ok) {
+                    const text = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/html');
+
+                    const links = Array.from(doc.querySelectorAll('a')).map(link => link.href);
+
+                    document.getElementById('result').innerHTML = '<strong>Found Web Pages:</strong><br>' + links.join('<br>');
+                } else {
+                    document.getElementById('result').innerHTML = 'Error: ' + response.status + ' ' + response.statusText;
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Find Web Pages</h1>
+    <form onsubmit="event.preventDefault(); findWebPages();">
+        <label for="urlInput">Enter URL:</label>
+        <input type="text" id="urlInput" required>
+        <button type="submit">Find Pages</button>
+    </form>
+    <div id="result"></div>
+</body>
+</html>
+
